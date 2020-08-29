@@ -61,6 +61,11 @@ class UI {
 
 		const bookForm = document.querySelector('#book-form');
 		bookForm.parentNode.insertBefore(div, bookForm);
+
+		// Vanish in 3 seconds
+		setTimeout(() => {
+			div.remove();
+		}, 3000);
 	}
 }
 
@@ -91,10 +96,14 @@ document.querySelector('#book-form').addEventListener('submit', (e) => {
 
 		// Clear fields after submission
 		UI.clearFields();
+
+		// Flash message book added
+		UI.showAlert('Book added!', 'success');
 	}
 });
 
 // Event: Remove a Book
 document.addEventListener('click', (e) => {
-	UI.deleteBook(e.target)
+	UI.deleteBook(e.target);
+	UI.showAlert('Book deleted!', 'success');
 });
