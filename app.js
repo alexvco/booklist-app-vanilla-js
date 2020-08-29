@@ -11,20 +11,7 @@ class Book {
 class UI {
 	// we didn't want to instantiate the ui class, hence we decided to make all the methods static
 	static displayBooks() {
-		const StoredBooks = [
-			{
-				title: 'Book One',
-				author: 'John Doe',
-				isbn: '34344',
-			},
-			{
-				title: 'Book Two',
-				author: 'Jane Doe',
-				isbn: '45545',
-			}
-		];
-
-		const books = StoredBooks;
+		const books = Store.getBooks();
 
 		books.forEach((book) => UI.addBookToList(book));
 	}
@@ -69,7 +56,41 @@ class UI {
 	}
 }
 
-// Store Class: Handles Storage
+// Store Class: Handles Storage (you can't store objects in local storage, it has to be a key-value paired string)
+class Store {
+	static getBooks() {
+		let books;
+		if (localStorage.getItem('books') === null) {
+			books = [];
+		} else {
+			books = JSON.parse(localStorage.getItem('books')); // so we can use it as a js object/array
+		}
+
+		return books
+	}
+
+	static addBook(book) {
+		const books = Store.getBooks();
+
+		// insert book into books array returned from getBooks()
+		books.push(book);
+
+		localStorage.setItem('books', JSON.stringify(books));
+	}
+
+	static removeBook(isbn) {
+		const books = Store.getBooks();
+
+		// insert book into books array returned from getBooks()
+		books.forEach((book, index) => {
+			if (books.isbn === isbn) {
+				books.splice(index, 1)
+			}
+		});
+
+		localStorage.setItem('books', JSON.stringify(books));
+	}
+}
 
 // Event: Display Books
 document.addEventListener('DOMContentLoaded', () => UI.displayBooks());
