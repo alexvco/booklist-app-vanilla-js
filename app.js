@@ -53,6 +53,15 @@ class UI {
 	static clearFields() {
 		document.querySelector('#book-form').reset();
 	}
+
+	static showAlert(message, className) {
+		const div = document.createElement('div');
+		div.className = `alert alert-${className}`;
+		div.appendChild(document.createTextNode(message));
+
+		const bookForm = document.querySelector('#book-form');
+		bookForm.parentNode.insertBefore(div, bookForm);
+	}
 }
 
 // Store Class: Handles Storage
@@ -70,14 +79,19 @@ document.querySelector('#book-form').addEventListener('submit', (e) => {
 	const author = document.querySelector('#author').value;
 	const isbn = document.querySelector('#isbn').value;
 
-	// Instantiate book
-	const book = new Book(title, author, isbn);
+	// Validations before adding book
+	if (title == '' || author == '' || isbn == '') {
+		UI.showAlert('Fill in all fields', 'danger');
+	}	else {
+		// Instantiate book
+		const book = new Book(title, author, isbn);
 
-	// Add book to UI
-	UI.addBookToList(book);
+		// Add book to UI
+		UI.addBookToList(book);
 
-	// Clear fields after submission
-	UI.clearFields();
+		// Clear fields after submission
+		UI.clearFields();
+	}
 });
 
 // Event: Remove a Book
