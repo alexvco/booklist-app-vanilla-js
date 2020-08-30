@@ -126,7 +126,7 @@ document.querySelector('#book-form').addEventListener('submit', (e) => {
   }
 });
 
-// Event: Remove a Book
+// Event: Remove a Book, note: we attach the eventlistener on the parent so that newly created books can also be deleted
 document.querySelector('#book-list').addEventListener('click', (e) => {
   // Remove book from UI
   UI.deleteBook(e.target);
